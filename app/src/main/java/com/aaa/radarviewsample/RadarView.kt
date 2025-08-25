@@ -1,9 +1,11 @@
 package com.aaa.radarviewsample
 
 import android.content.Context
+import android.graphics.BlurMaskFilter
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.PointF
 import android.util.AttributeSet
 import android.view.View
 import kotlin.math.cos
@@ -26,8 +28,31 @@ class RadarView @JvmOverloads constructor(
         isAntiAlias = true
     }
 
+    private val glowPaint = Paint().apply {
+        color = Color.CYAN
+        isAntiAlias = true
+        maskFilter = BlurMaskFilter(20f, BlurMaskFilter.Blur.NORMAL)    /* 光のにじみ */
+    }
+
+    private val centerPaint = Paint().apply {
+        color = Color.CYAN
+        isAntiAlias = true
+    }
+
+    private val pointPaint = Paint().apply {
+        color = Color.CYAN
+        isAntiAlias = true
+    }
+
     private var sweepAngle = 0f
     private val sweepTrail = mutableListOf<Float>() /* スイープの軌跡 */
+
+    /* レーダー内の点 */
+    private val radarPoints = listOf(
+        Pair(100f, 30f),
+        Pair(150f, 120f),
+        Pair( 80f, 270f),
+    )
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -68,6 +93,10 @@ class RadarView @JvmOverloads constructor(
             val endy= centerY + radius * sin(rad).toFloat()
             canvas.drawLine(centerX, centerY, endx, endy, sweepPaint)
         }
+
+        /* 中心点描画 */
+        canvas.drawCircle(centerX, centerY, 20f, glowPaint)
+        canvas.drawCircle(centerX, centerY, 12f, centerPaint)
 
         /* アニメーション更新 */
         sweepAngle += 2f
