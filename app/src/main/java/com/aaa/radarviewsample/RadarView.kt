@@ -8,6 +8,7 @@ import android.graphics.Paint
 import android.graphics.PointF
 import android.util.AttributeSet
 import android.view.View
+import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -46,10 +47,11 @@ class RadarView @JvmOverloads constructor(
 
     private var sweepAngle = 0f
     private val sweepTrail = mutableListOf<Float>() /* スイープの軌跡 */
+    private var sweepDirection = 1 /* 1:時計回り -1:反時計回り */
 
     /* レーダー内の点 */
     private val radarPoints = listOf(
-        Pair(100f, 30f),
+        Pair(100f, 30f),    /* 半径, 角度(°) */
         Pair(150f, 120f),
         Pair( 80f, 270f),
     )
@@ -98,8 +100,23 @@ class RadarView @JvmOverloads constructor(
         canvas.drawCircle(centerX, centerY, 20f, glowPaint)
         canvas.drawCircle(centerX, centerY, 12f, centerPaint)
 
+        /* 点描画 */
+        for((r, angle) in radarPoints) {
+            val rad = Math.toRadians(angle.toDouble())
+            val x = centerX + r * cos(rad).toFloat()
+            val y = centerY + r * sin(rad).toFloat()
+            val diff = abs(sweepAngle-angle)
+            val isHit = diff < 5f || diff > 355f    /* 角度が近い時にヒットしたと判定 */
+            if(isHit) {
+                /*光らせる*/
+                canvas.drawCircle(x, y, 16f, glowPaint)
+            } else {
+                canvas.drawCircle(x, y, 8f, pointPaint)
+            }
+        }
+
         /* アニメーション更新 */
-        sweepAngle += 2f
+        sweepAngle += 2f * sweepDirection
         if (sweepAngle >= 360f) sweepAngle = 0f
         postInvalidateDelayed(16L) // 約60fps
     }
