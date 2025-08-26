@@ -78,6 +78,21 @@ class RadarView @JvmOverloads constructor(
         val centerY = height / 2f
         val radius = minOf(centerX, centerY) - 16f
 
+        /* Calculate the coordinates of both ends of an arc */
+        val radStart = Math.toRadians(D_START_ANGLE.toDouble())
+        val radEnd = Math.toRadians((D_START_ANGLE+D_SWEEP_RANGE).toDouble())
+        val x1 = centerX + radius * cos(radStart).toFloat()
+        val y1 = centerY + radius * sin(radStart).toFloat()
+        val x2 = centerX + radius * cos(radEnd).toFloat()
+        val y2 = centerY + radius * sin(radEnd).toFloat()
+
+        if(D_SWEEP_RANGE <= 180f) {
+            canvas.save()
+            canvas.translate(-radius/2f, 0f)
+            val scale = minOf((width-100f)/(y2-y1), (height-100f)/radius)
+            canvas.scale(scale, scale, centerX+radius/2f, centerY)
+        }
+
         /* Draw concentric arcs */
         val ringCount = 5
         for (i in 1..ringCount) {
@@ -85,12 +100,6 @@ class RadarView @JvmOverloads constructor(
         }
 
         /* Grid lines (edges of the sector) */
-        val radStart = Math.toRadians(D_START_ANGLE.toDouble())
-        val radEnd = Math.toRadians((D_START_ANGLE+D_SWEEP_RANGE).toDouble())
-        val x1 = centerX + radius * cos(radStart).toFloat()
-        val y1 = centerY + radius * sin(radStart).toFloat()
-        val x2 = centerX + radius * cos(radEnd).toFloat()
-        val y2 = centerY + radius * sin(radEnd).toFloat()
         canvas.drawLine(centerX, centerY, x1, y1, radarPaint)
         canvas.drawLine(centerX, centerY, x2, y2, radarPaint)
 
@@ -139,7 +148,10 @@ class RadarView @JvmOverloads constructor(
             }
         }
 
-        /* Update animation */
+        if(D_SWEEP_RANGE <= 180f)
+            canvas.restore()
+
+            /* Update animation */
         sweepAngle += 2f * sweepDirection
         if(D_IS_SWEEP_WRAPPED) {
             if (sweepAngle >= D_SWEEP_RANGE) {
