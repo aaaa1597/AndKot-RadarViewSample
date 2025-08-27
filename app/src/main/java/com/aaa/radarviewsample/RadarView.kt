@@ -103,9 +103,16 @@ class RadarView @JvmOverloads constructor(
             canvas.drawArc(drawRect, D_START_ANGLE, D_SWEEP_RANGE, false, radarPaint)
         }
 
-        /* Grid lines (edges of the sector) */
-        canvas.drawLine(centerX, centerY, x1, y1, radarPaint)
-        canvas.drawLine(centerX, centerY, x2, y2, radarPaint)
+        if( D_SWEEP_RANGE==360f) {
+            /* Grid lines (cross lines) */
+            canvas.drawLine(centerX,        centerY-radius, centerX,        centerY+radius, radarPaint)
+            canvas.drawLine(centerX-radius, centerY,        centerX+radius, centerY,        radarPaint)
+        }
+        else {
+            /* Grid lines (edges of the sector) */
+            canvas.drawLine(centerX, centerY, x1, y1, radarPaint)
+            canvas.drawLine(centerX, centerY, x2, y2, radarPaint)
+        }
 
         /* Sweep line */
         val sweepLength = radius
