@@ -5,6 +5,7 @@ import android.graphics.BlurMaskFilter
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.withStyledAttributes
@@ -62,6 +63,7 @@ class RadarView @JvmOverloads constructor(
     private var sweepAngle = 0f
     private val sweepTrail = mutableListOf<Float>() /* - Sweep trail */
     private var sweepDirection = 1 /* 1: Clockwise, -1: Counterclockwise */
+    private var drawRect = RectF()
 
     /* Points inside the radar (in polar coordinates) */
     private val radarPoints = listOf(
@@ -95,8 +97,10 @@ class RadarView @JvmOverloads constructor(
 
         /* Draw concentric arcs */
         val ringCount = 5
-        for (i in 1..ringCount) {
-            canvas.drawCircle(centerX, centerY, radius * i / ringCount, radarPaint)
+        for (idx in 1..ringCount) {
+            val r = radius * idx / ringCount
+            drawRect.set(centerX-r, centerY-r, centerX+r, centerY+r)
+            canvas.drawArc(drawRect, D_START_ANGLE, D_SWEEP_RANGE, false, radarPaint)
         }
 
         /* Grid lines (edges of the sector) */
