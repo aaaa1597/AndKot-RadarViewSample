@@ -1,6 +1,6 @@
 # AndKot-RadarViewSample
 
-レーダー画面のViewを作ってみた。
+レーダー画面のViewを作ってみた。  
 <img src="RadarView360.png" width="300" /> <img src="RadarView60.png" width="300" />
 
 [English](README.md)

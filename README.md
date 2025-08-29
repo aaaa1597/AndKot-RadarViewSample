@@ -1,6 +1,6 @@
 # AndKot-RadarViewSample
 
-I gave it a shot and made a radar screen view.
+I gave it a shot and made a radar screen view.  
 <img src="RadarView360.png" width="300" /> <img src="RadarView60.png" width="300" />
 
 [日本語](README-ja.md)
