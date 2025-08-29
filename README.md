@@ -19,4 +19,6 @@ I gave it a shot and made a radar screen view.
 |sweepRange|float|0–359°|Arc angle|
 |isSweepWrapped|boolean|true/false|Whether to wrap or not|
 
-Details are [here](https://androidkotlin-making-a-radar-view.hashnode.dev/androidkotlin-i-gave-it-a-shot-and-made-a-radar-screen-view)
+Details are [here hashnode](https://androidkotlin-making-a-radar-view.hashnode.dev/androidkotlin-i-gave-it-a-shot-and-made-a-radar-screen-view)
+
+and [here medium](https://medium.com/@tks2011w/i-tried-making-a-radar-screen-view-in-android-kotlin-heres-how-it-went-ebf9d572c20a)
