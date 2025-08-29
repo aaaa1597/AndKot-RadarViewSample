@@ -18,3 +18,5 @@
 |---|---|---|---|
 |sweepRange|float|0-359°|円弧の角度|
 |isSweepWrapped|boolean|true/false|折り返すかどうか|
+
+詳細は[ココ]()

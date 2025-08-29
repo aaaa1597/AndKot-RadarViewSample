@@ -18,3 +18,5 @@ I gave it a shot and made a radar screen view.
 |---|---|---|---|
 |sweepRange|float|0–359°|Arc angle|
 |isSweepWrapped|boolean|true/false|Whether to wrap or not|
+
+Details are [here]()
